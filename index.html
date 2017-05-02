@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>天猫狂欢节</title>
+	<style type="text/css">
+		*{margin: 0;padding: 0}
+		body { margin: 0; padding:0; }
+		#wrap {
+			background: url(images/body_bg.png) repeat-x; 
+			position: absolute; left: 0; top: 0;
+			width: 100%; height: 100%;
+			background-size: 1px auto;
+		}
+		#cvs {
+			position: absolute; left: 0; right: 0;
+			margin: 0 auto;
+		}
+		#onload{width: 100%;height: 100%;background:#303336;position: relative;text-align: center;border: 1px solid #303336;box-sizing: border-box;}
+		#onload img{margin-top: 300px;}
+		#onload p{text-align: center;color: white}
+
+	</style>
+</head>
+<body>
+	<!-- 做根元素 -->
+	<div id="wrap">
+		<canvas id="cvs" width="1280"></canvas>
+	</div>
+	<div id="onload">
+		<img src="imgs/img_load.gif">
+		<p>loading......</p>
+	</div>
+</body>
+</html>
+<script type="text/javascript" src="js/images.js"></script>
+<script type="text/javascript" src="js/load.js"></script>
+<script type="text/javascript" src="js/conment.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript">
+	var wrap = document.getElementById('wrap');
+	var canvas = document.getElementById('cvs');
+	var ctx = canvas.getContext('2d');
+	var onLoad=document.getElementById('onload');
+
+	//背景图动态图静态图
+	var image_bgArr = {},image_stateArr = {},image_DynamicArr = {};
+	var i = 0,j = 0,o = 0;
+	//滚动距离
+	var posY = 0,speed = 0,maxH = 0,timer,cH = 0,lastH = 0;
+	var timer = null;
+	onLoad.style.width=window.innerWidth+"px";
+	onLoad.style.height=window.innerHeight+"px";
+
+
+	wrap.style.display="none";
+	onLoad.style.display="blobk";
+	//加载完成
+	loadImage_bg(function(){
+		loadImage_state(function(){
+			loadImage_Dynamic(function(){
+				wrap.style.display="block"
+				onLoad.style.display="none"
+
+				for(var i in image_DynamicArr){
+					image_DynamicArr[i].num = 0;
+					image_DynamicArr[i].count = 0;
+				}
+				update();
+				window.onresize = update;
+				timer  = requestAnimationFrame(init);
+			});
+		});
+	});
+</script>
